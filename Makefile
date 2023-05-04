@@ -17,6 +17,9 @@ ${BINDIR}:
 
 ${SRCDIR}/develenv.o: ${SRCDIR}/develenv.cpp
 
+install: ${BINDIR}/develenv
+	install $^ ${HOME}/bin
+
 clean:
 	rm -R -f ${SRCDIR}/*.o ${SRCDIR}/*.h~ ${SRCDIR}/*.cpp~
 	rm -R ${BINDIR}

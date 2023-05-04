@@ -25,7 +25,7 @@ main(void) {
     child = fork();
     if (child == 0) {
       std::string currdesktop{::getenv("XDG_CURRENT_DESKTOP")};
-      if (currdesktop == "GNOME") {
+      if (currdesktop == "GNOME" || currdesktop == "ubuntu:GNOME") {
         execl(GNOME_TERMINAL_PATH,
               GNOME_TERMINAL,
               "--command",
@@ -50,7 +50,14 @@ main(void) {
 
     if (child == 0) {
       std::string currdesktop(::getenv("XDG_CURRENT_DESKTOP"));
-      if (currdesktop == "GNOME") {
+      if (currdesktop == "GNOME" || currdesktop == "ubunto:GNOME") {
+	execl(GNOME_TERMINAL_PATH,
+              GNOME_TERMINAL,
+              "--command",
+              "tmux new-session devel",
+              GNOME_FULL_SCREEN_OPTION,
+              NULL);
+        exit(1);
       }
       else if (currdesktop == "XFCE") {
         execl(XFCE_TERMINAL_PATH,
