@@ -12,6 +12,7 @@ const char GNOME_TERMINAL[] = "gnome-terminal";
 const char XFCE_TERMINAL[] = "xfce4-terminal";
 const char GNOME_FULL_SCREEN_OPTION[] = "--full-screen";
 const char XFCE_FULL_SCREEN_OPTION[] = "--fullscreen";
+const char GNOME_PROFILE_OPTION[] = "--profile=devel";
 
 bool existTmuxSession(const char* sname);
 
@@ -28,9 +29,13 @@ main(void) {
       if (currdesktop == "GNOME" || currdesktop == "ubuntu:GNOME") {
         execl(GNOME_TERMINAL_PATH,
               GNOME_TERMINAL,
-              "--command",
-              "tmux attach -t devel",
               GNOME_FULL_SCREEN_OPTION,
+              GNOME_PROFILE_OPTION,
+              "--",
+              "tmux",
+              "attach",
+              "-t",
+              "devel",
               NULL);
         exit(1);
       }
@@ -38,7 +43,10 @@ main(void) {
         execl(XFCE_TERMINAL_PATH,
               XFCE_TERMINAL,
               "-e",
-              "tmux attach -t devel",
+              "tmux",
+              "attach",
+              "-t",
+              "devel",
               XFCE_FULL_SCREEN_OPTION,
               NULL);
       }
@@ -51,11 +59,15 @@ main(void) {
     if (child == 0) {
       std::string currdesktop(::getenv("XDG_CURRENT_DESKTOP"));
       if (currdesktop == "GNOME" || currdesktop == "ubunto:GNOME") {
-	execl(GNOME_TERMINAL_PATH,
+        execl(GNOME_TERMINAL_PATH,
               GNOME_TERMINAL,
-              "--command",
-              "tmux new-session devel",
               GNOME_FULL_SCREEN_OPTION,
+              GNOME_PROFILE_OPTION,
+              "--",
+              "tmux",
+              "new",
+              "-s",
+              "devel",
               NULL);
         exit(1);
       }
@@ -63,8 +75,12 @@ main(void) {
         execl(XFCE_TERMINAL_PATH,
               XFCE_TERMINAL,
               XFCE_FULL_SCREEN_OPTION,
-              "--command=tmux",
-              // "--font=\"Monospace Regular 12\"",
+              "--font=\"Monospace Regular 12\"",
+              "-e",
+              "tmux",
+              "new",
+              "-s",
+              "devel",
               NULL);
       }
       exit(1);
