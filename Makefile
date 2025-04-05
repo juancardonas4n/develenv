@@ -1,8 +1,9 @@
-
 BINDIR=bin
+TARGET=develenv
 .phony: all clean ${BINDIR}
 
-all:
+all: ${BINDIR}/${TARGET}
+
 SRCDIR=src
 OBJECTS=${SRCDIR}/develenv.o
 CXXFLAGS=-Wall
